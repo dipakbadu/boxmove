@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 #box-container{
-  margin: 100px;
   position: relative;
   height: 300px;
   width: 500px;
@@ -13,8 +12,8 @@
 }
 #box {
   position: absolute;
-  height: 80px;
-  width: 80px;
-  top: 10%;
-  background-color: royalblue;
+  height: 50px;
+  width: 50px;
+  left: 50;
+  background-color: red;
 }
