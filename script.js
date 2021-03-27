@@ -1,44 +1,59 @@
-var box;
-var maxBoxX = 500 - 50;
-var maxBoxY = 300 - 50;
-var speed = 5;
-window.onload = init
+const parentDiv = document.getElementById("box-container");
+let maxHeight = 300 - 60;
+let maxWidth = 500 - 60;
+function boxGenerator(num) {
+  for (i = 0; i < num; i++) {
+    const randomColors = colorGenerate();
+    const dx = dxGenerator();
+    const dy = dyGenerator();
+    const aDiv = document.createElement("div");
+    parentDiv.append(aDiv);
+    aDiv.setAttribute("name", `aDiv${i}`);
+    aDiv.setAttribute(
+      "style",
+      `position: absolute; top:${dy}px; left:${dx}px; height: 60px;   border-radius: 25px; width:60px; background-color: ${randomColors};`
+    );
+    moveObject(2, 2, dx, dy, aDiv);
+  }
+}
+(function userInput(){
+  let input = prompt("Enter no of boxes: ","0")
+  let numberInput = parseInt(input)
+  boxGenerator(numberInput);
+}())
 
-function init() {
-  box = document.getElementById("box");
-  box.posX = box.offsetLeft;
-  box.posY = box.offsetTop;
-  box.velX = speed;
-  box.velY = speed;
-  box.move = true;
-  setInterval(moveBox,30);
+function dxGenerator() {
+  return Math.floor(Math.random() * maxWidth) + 1;
 }
 
-function moveBox() {
-  if (box.move) {
-    box.posX += box.velX;
-    box.posY += box.velY;
+function dyGenerator() {
+  return Math.floor(Math.random() * maxHeight) + 1;
+}
 
-    if(box.posX <= 0) {
-      box.posX = 0;
-      box.velX = -box.velX;
+function moveObject(valueX, valueY, dx, dy, aDiv) {
+  setInterval(() => {
+    dx += valueX;
+    aDiv.style.left = dx + "px";
+    dy += valueY;
+    aDiv.style.top = dy + "px";
+    if (dx > maxWidth || dx < 0) {
+      valueX = valueX * -1;
     }
-
-    if(box.posX >= maxBoxX) {
-      box.posX = maxBoxX;
-      box.velX = -box.velX;
+    if (dy > maxHeight || dy < 0) {
+      valueY = valueY * -1;
     }
-
-    if(box.posY <= 0){
-      box.posY = 0;
-      box.velY = -box.velY;
-    }
-    
-    if(box.posY >= maxBoxY) {
-      box.posY = maxBoxY;
-      box.velY = -box.velY;
-    }
-    box.style.left = box.posX + "px";
-    box.style.top  = box.posY + "px";
-  }
+  }, 20);
+}
+function colorGenerate() {
+  const colors = [
+    "#A52A2A",
+    "#7FFFD4",
+    "#00FFFF",
+    "#FF8C00",
+    "#008000",
+    "#4B0082",
+    "#FF00FF",
+  ];
+  const colorsNum = Math.floor(Math.random() * colors.length);
+  return colors[colorsNum];
 }
